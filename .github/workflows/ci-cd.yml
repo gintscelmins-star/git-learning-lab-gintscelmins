@@ -1,0 +1,38 @@
+name: Students file CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  check-students-file:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Lejupieladet repozitorija kodu
+        uses: actions/checkout@v4
+
+      - name: Parbaudit, vai eksiste Students.md vai students.md
+        run: |
+          if [ -f Students.md ]; then
+            FILE=Students.md
+          elif [ -f students.md ]; then
+            FILE=students.md
+          else
+            echo "Kļūda: fails Students.md vai students.md nav atrasts!"
+            exit 1
+          fi
+          echo "Using file: $FILE"
+          echo "STUDENTS_FILE=$FILE" >> $GITHUB_ENV
+
+      - name: Paradit Students.md saturu
+        run: cat "$STUDENTS_FILE"
+
+      - name: Testa solis
+        run: echo "Parbaude veiksmigi izpildita"
+
+      - name: Deploy (demo solis)
+        if: success()
+        run: echo "Deploy veiksmīgs"
