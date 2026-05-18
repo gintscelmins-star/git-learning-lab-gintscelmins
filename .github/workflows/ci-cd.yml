@@ -1,4 +1,4 @@
-name: Students file CI/CD
+name: students file CI/CD
 
 on:
   push:
@@ -14,14 +14,15 @@ jobs:
         uses: actions/checkout@v4
 
       # Gatavs Action no GitHub Marketplace faila eksistences parbaudei
-      - name: Parbaudit vai eksiste Students.md
+      - name: Parbaudit vai eksiste students.md
         uses: andstor/file-existence-action@v3
         with:
-          files: "Students.md"
+        with:
+        files: "students.md"
           fail: true # Ja fails neeksistē, pipeline apstāsies ar kļūdu
 
-      - name: Paradit Students.md saturu
-        run: cat Students.md
+      - name: Paradit students.md saturu
+        run: cat students.md
 
       # Demo soļi saglabāti tālākai izpildei
       - name: Testa solis
