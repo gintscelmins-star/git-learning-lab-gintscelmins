@@ -2,52 +2,31 @@ name: Students file CI/CD
 
 on:
   push:
-    branches: [main]
+    branches: [main, feature/marketplace-action] # Palaist pie push uz main vai jauno zaru
   pull_request:
-    branches: [main]
-  workflow_dispatch: # Pievieno šo rindu. Tā aktivizē manuālo palaišanas pogu.
+    branches: [main] # Palaist, kad tiek veidots Pull Request uz main
+  workflow_dispatch: # Aktivizē manuālo palaišanas pogu Actions sadaļā
 
 jobs:
   check-students-file:
     runs-on: ubuntu-latest
     steps:
+      # 1. Koda lejupielāde no konkrētā zara
       - name: Lejupieladet repozitorija kodu
         uses: actions/checkout@v4
 
+      # 2. GitHub Marketplace Action faila eksistences pārbaudei
       - name: Parbaudit vai eksiste Students.md
         uses: andstor/file-existence-action@v3
         with:
           files: "Students.md"
-          fail: true
-
-
-name: students file CI/CD
-
-on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
-
-jobs:
-  check-students-file:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Lejupieladet repozitorija kodu
-        uses: actions/checkout@v4
-
-      # Gatavs Action no GitHub Marketplace faila eksistences parbaudei
-      - name: Parbaudit vai eksiste students.md
-        uses: andstor/file-existence-action@v3
-        with:
-        with:
-        files: "students.md"
           fail: true # Ja fails neeksistē, pipeline apstāsies ar kļūdu
 
-      - name: Paradit students.md saturu
-        run: cat students.md
+      # 3. Satura attēlošana (pēc tam, kad Marketplace action apstiprinājis eksistenci)
+      - name: Paradit Students.md saturu
+        run: cat Students.md
 
-      # Demo soļi saglabāti tālākai izpildei
+      # 4. Demo soļi no oriģinālā uzdevuma
       - name: Testa solis
         run: echo "Parbaude veiksmigi izpildita"
 
