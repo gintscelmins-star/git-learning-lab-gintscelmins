@@ -2,31 +2,28 @@ name: Students file CI/CD
 
 on:
   push:
-    branches: [main, feature/marketplace-action] # Palaist pie push uz main vai jauno zaru
+    branches: [main, feature/marketplace-action] # Aktivizējas uz abiem zariem
   pull_request:
-    branches: [main] # Palaist, kad tiek veidots Pull Request uz main
-  workflow_dispatch: # Aktivizē manuālo palaišanas pogu Actions sadaļā
+    branches: [main]
+  workflow_dispatch: # Atstājam arī manuālo palaišanu drošībai
 
 jobs:
   check-students-file:
     runs-on: ubuntu-latest
     steps:
-      # 1. Koda lejupielāde no konkrētā zara
       - name: Lejupieladet repozitorija kodu
         uses: actions/checkout@v4
 
-      # 2. GitHub Marketplace Action faila eksistences pārbaudei
-      - name: Parbaudit vai eksiste Students.md
+      # Marketplace Action konfigurācija ar mazo sākuma burtu
+      - name: Parbaudit vai eksiste students.md
         uses: andstor/file-existence-action@v3
         with:
-          files: "Students.md"
-          fail: true # Ja fails neeksistē, pipeline apstāsies ar kļūdu
+          files: "students.md" # Šeit nomainīts uz mazo "s"
+          fail: true
 
-      # 3. Satura attēlošana (pēc tam, kad Marketplace action apstiprinājis eksistenci)
-      - name: Paradit Students.md saturu
-        run: cat Students.md
+      - name: Paradit students.md saturu
+        run: cat students.md # Šeit arī nomainīts uz mazo "s"
 
-      # 4. Demo soļi no oriģinālā uzdevuma
       - name: Testa solis
         run: echo "Parbaude veiksmigi izpildita"
 
