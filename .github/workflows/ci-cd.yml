@@ -9,27 +9,21 @@ on:
 jobs:
   check-students-file:
     runs-on: ubuntu-latest
-
     steps:
       - name: Lejupieladet repozitorija kodu
         uses: actions/checkout@v4
 
-      - name: Parbaudit, vai eksiste Students.md vai students.md
-        run: |
-          if [ -f Students.md ]; then
-            FILE=Students.md
-          elif [ -f students.md ]; then
-            FILE=students.md
-          else
-            echo "Kļūda: fails Students.md vai students.md nav atrasts!"
-            exit 1
-          fi
-          echo "Using file: $FILE"
-          echo "STUDENTS_FILE=$FILE" >> $GITHUB_ENV
+      # Gatavs Action no GitHub Marketplace faila eksistences parbaudei
+      - name: Parbaudit vai eksiste Students.md
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "Students.md"
+          fail: true # Ja fails neeksistē, pipeline apstāsies ar kļūdu
 
       - name: Paradit Students.md saturu
-        run: cat "$STUDENTS_FILE"
+        run: cat Students.md
 
+      # Demo soļi saglabāti tālākai izpildei
       - name: Testa solis
         run: echo "Parbaude veiksmigi izpildita"
 
