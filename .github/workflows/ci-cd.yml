@@ -1,3 +1,26 @@
+name: Students file CI/CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: # Pievieno šo rindu. Tā aktivizē manuālo palaišanas pogu.
+
+jobs:
+  check-students-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lejupieladet repozitorija kodu
+        uses: actions/checkout@v4
+
+      - name: Parbaudit vai eksiste Students.md
+        uses: andstor/file-existence-action@v3
+        with:
+          files: "Students.md"
+          fail: true
+
+
 name: students file CI/CD
 
 on:
